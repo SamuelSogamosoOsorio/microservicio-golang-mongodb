@@ -1,0 +1,69 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "User API",
+    "collectionId": "7c628786-3dc7-45ab-99dc-25f26a2abb1c",
+    "dateExported": "2025-04-09T19:53:15.704Z",
+    "version": "1.2",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "762159a6-eb40-4275-925e-42c669e316b5",
+            "colId": "7c628786-3dc7-45ab-99dc-25f26a2abb1c",
+            "containerId": "",
+            "name": "GET USERS",
+            "url": "",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2025-04-09T19:50:45.996Z",
+            "modified": "2025-04-09T19:50:45.996Z",
+            "headers": []
+        },
+        {
+            "_id": "ca7e457f-dbd0-40da-8865-626b2fdbb59a",
+            "colId": "7c628786-3dc7-45ab-99dc-25f26a2abb1c",
+            "containerId": "",
+            "name": "POST USER",
+            "url": "http://localhost:8080/users",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2025-04-09T19:51:12.532Z",
+            "modified": "2025-04-09T19:51:42.655Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test@example.com\",\n  \"password\": \"123456\"\n}\n",
+                "form": []
+            }
+        },
+        {
+            "_id": "f859af47-833a-49a9-aff5-406e69fa9702",
+            "colId": "7c628786-3dc7-45ab-99dc-25f26a2abb1c",
+            "containerId": "",
+            "name": "PUT USER",
+            "url": "http://localhost:8080/users/:id",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2025-04-09T19:52:03.005Z",
+            "modified": "2025-04-09T19:52:33.854Z",
+            "headers": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Updated Name\",\n  \"email\": \"updated@example.com\",\n  \"password\": \"newpass\"\n}\n",
+                "form": []
+            }
+        },
+        {
+            "_id": "75dc5d41-9c44-465a-9763-be13213728b3",
+            "colId": "7c628786-3dc7-45ab-99dc-25f26a2abb1c",
+            "containerId": "",
+            "name": "DELETE USER",
+            "url": "",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2025-04-09T19:52:45.735Z",
+            "modified": "2025-04-09T19:52:45.735Z",
+            "headers": []
+        }
+    ],
+    "ref": "ZKBXken4wobyI4hqAzNssv2DVkz4IO78F0orZ1ss_Bupok7VfAEXQCHKolDIwP1-WSpCcU4WkHfmH3Ik84UT3w"
+}
