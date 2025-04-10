@@ -140,5 +140,10 @@ Todo en un solo paso.
 
 ---
 
+## 🧩 Diagrama de Infraestructura
+
+![Infraestructura](docs/infraestructura_imagen.png)
+
+
 > ✨ ¡Este microservicio está tan bien hecho que hasta Mongo quiere documentarse solo! ✨
 
