@@ -8,4 +8,4 @@ type User struct {
 	Email    string             `bson:"email" json:"email"`
 	Password string             `bson:"password,omitempty" json:"password,omitempty"`
 }
-//estructura user
+//estructura user en mongo
