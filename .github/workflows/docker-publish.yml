@@ -1,4 +1,4 @@
-name: Build and Push Docker image
+name: Scan Docker image for vulnerabilities with Trivy
 
 on:
   push:
@@ -22,9 +22,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+      - name: Build Docker image
+        run: |
+          docker build -t samuels0x/microservicio-user:latest .
+
+      - name: Scan Docker image for vulnerabilities with Trivy
+        uses: aquasecurity/trivy-action@master
         with:
-          context: .
-          push: true
-          tags: samuels0x/microservicio-user:latest
+          image-ref: samuels0x/microservicio-user:latest
+          format: table
+          exit-code: 0
+          ignore-unfixed: true
+
+      - name: Push Docker image
+        run: |
+          docker push samuels0x/microservicio-user:latest
