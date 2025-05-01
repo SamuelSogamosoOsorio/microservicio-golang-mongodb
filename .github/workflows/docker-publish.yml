@@ -34,7 +34,6 @@ jobs:
           exit-code: 1
           ignore-unfixed: true
           severity: CRITICAL,HIGH
-          ignore-policy: .trivyignore
 
       - name: Push Docker image
         run: |
