@@ -31,8 +31,9 @@ jobs:
         with:
           image-ref: samuel05x/microservicio-user:latest
           format: table
-          exit-code: 0
+          exit-code: 1
           ignore-unfixed: true
+          severity: CRITICAL,HIGH
 
       - name: Push Docker image
         run: |
