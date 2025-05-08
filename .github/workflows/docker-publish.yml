@@ -90,5 +90,11 @@ jobs:
           docker run --rm --network host \
             -e MONGODB_URI=mongodb://localhost:27017 \
             -e MONGODB_NAME=usersdb_test \
-            samuel05x/microservicio-user:latest || exit 1
+            samuel05x/microservicio-user:latest &
+          sleep 5  # espera que el servicio levante
+      
+          curl -f http://localhost:8080/users || exit 1  # o cualquier endpoint válido
+      
+          echo "✅ El contenedor respondió correctamente."
+
 
