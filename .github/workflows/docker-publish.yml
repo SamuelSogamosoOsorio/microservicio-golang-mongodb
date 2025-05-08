@@ -1,12 +1,30 @@
-name: Scan Docker image for vulnerabilities with Trivy
+name: CI/CD with Trivy and Tests
 
 on:
   push:
     branches:
-      - main  # Cambia si usas otra rama
+      - main
 
 jobs:
-  build:
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.22'
+
+      - name: Run Unit Tests
+        run: |
+          go mod tidy
+          go test -v ./...
+
+  build-and-scan:
+    needs: unit-tests
     runs-on: ubuntu-latest
 
     steps:
@@ -26,7 +44,7 @@ jobs:
         run: |
           docker build -t samuel05x/microservicio-user:latest .
 
-      - name: Scan Docker image for vulnerabilities with Trivy
+      - name: Scan Docker image with Trivy
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: samuel05x/microservicio-user:latest
@@ -38,3 +56,16 @@ jobs:
       - name: Push Docker image
         run: |
           docker push samuel05x/microservicio-user:latest
+
+  integration-tests:
+    needs: build-and-scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pull Docker image from Docker Hub
+        run: |
+          docker pull samuel05x/microservicio-user:latest
+
+      - name: Run image and validate container execution
+        run: |
+          docker run --rm samuel05x/microservicio-user:latest || exit 1
