@@ -87,4 +87,8 @@ jobs:
 
       - name: Run container and test execution
         run: |
-          docker run --rm --network host samuel05x/microservicio-user:latest || exit 1
+          docker run --rm --network host \
+            -e MONGODB_URI=mongodb://localhost:27017 \
+            -e MONGODB_NAME=usersdb_test \
+            samuel05x/microservicio-user:latest || exit 1
+
