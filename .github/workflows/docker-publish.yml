@@ -1,4 +1,4 @@
-name: CI/CD with Trivy and Tests
+name: CI/CD with MongoDB, Trivy, and Tests
 
 on:
   push:
@@ -9,8 +9,19 @@ jobs:
   unit-tests:
     runs-on: ubuntu-latest
 
+    services:
+      mongo:
+        image: mongo:5.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Go
@@ -18,7 +29,7 @@ jobs:
         with:
           go-version: '1.22'
 
-      - name: Run Unit Tests
+      - name: Run Unit Tests (with MongoDB)
         run: |
           go mod tidy
           go test -v ./...
@@ -28,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
@@ -41,8 +52,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Docker image
-        run: |
-          docker build -t samuel05x/microservicio-user:latest .
+        run: docker build -t samuel05x/microservicio-user:latest .
 
       - name: Scan Docker image with Trivy
         uses: aquasecurity/trivy-action@master
@@ -54,18 +64,27 @@ jobs:
           severity: CRITICAL,HIGH
 
       - name: Push Docker image
-        run: |
-          docker push samuel05x/microservicio-user:latest
+        run: docker push samuel05x/microservicio-user:latest
 
   integration-tests:
     needs: build-and-scan
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Pull Docker image from Docker Hub
-        run: |
-          docker pull samuel05x/microservicio-user:latest
+    services:
+      mongo:
+        image: mongo:5.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
-      - name: Run image and validate container execution
+    steps:
+      - name: Pull Docker image
+        run: docker pull samuel05x/microservicio-user:latest
+
+      - name: Run container and test execution
         run: |
-          docker run --rm samuel05x/microservicio-user:latest || exit 1
+          docker run --rm --network host samuel05x/microservicio-user:latest || exit 1
