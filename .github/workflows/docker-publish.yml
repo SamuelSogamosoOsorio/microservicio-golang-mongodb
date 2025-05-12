@@ -58,11 +58,13 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR_TOKEN }}
 
+      - name: Set lowercase repo owner
+        run: echo "REPO_OWNER_LC=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Build Docker image
         run: |
           docker build -t samuel05x/microservicio-user:latest \
-                       -t ghcr.io/${{ github.repository_owner || toLower}}/microservicio-user:latest .
+                       -t ghcr.io/${{ github.REPO_OWNER_LC}}/microservicio-user:latest .
 
       - name: Scan Docker image with Trivy
         uses: aquasecurity/trivy-action@master
@@ -76,7 +78,7 @@ jobs:
       - name: Push Docker image to DockerHub and GHCR
         run: |
           docker push samuel05x/microservicio-user:latest
-          docker push ghcr.io/${{ github.repository_owner || toLower }}/microservicio-user:latest
+          docker push ghcr.io/${{ github.REPO_OWNER_LC}}/microservicio-user:latest
 
 
   integration-tests:
