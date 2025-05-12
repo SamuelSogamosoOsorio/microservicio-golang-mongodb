@@ -76,7 +76,7 @@ jobs:
       - name: Push Docker image to DockerHub and GHCR
         run: |
           docker push samuel05x/microservicio-user:latest
-          docker push ghcr.io/${{ github.SamuelSogamosoOsorio }}/microservicio-user:latest
+          docker push ghcr.io/${{ github.repository_owner }}/microservicio-user:latest
 
 
   integration-tests:
