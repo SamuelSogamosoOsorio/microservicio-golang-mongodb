@@ -62,7 +62,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t samuel05x/microservicio-user:latest \
-                       -t ghcr.io/${{ github.repository_owner }}/microservicio-user:latest .
+                       -t ghcr.io/${{ github.repository_owner || toLower}}/microservicio-user:latest .
 
       - name: Scan Docker image with Trivy
         uses: aquasecurity/trivy-action@master
@@ -76,7 +76,7 @@ jobs:
       - name: Push Docker image to DockerHub and GHCR
         run: |
           docker push samuel05x/microservicio-user:latest
-          docker push ghcr.io/${{ github.repository_owner }}/microservicio-user:latest
+          docker push ghcr.io/${{ github.repository_owner || toLower }}/microservicio-user:latest
 
 
   integration-tests:
